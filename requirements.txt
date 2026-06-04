@@ -1,0 +1,21 @@
+# Database
+sqlalchemy>=2.0
+psycopg2-binary>=2.9
+
+# Data
+faker>=19.0
+
+# AI
+anthropic>=0.25
+
+# Backend
+fastapi>=0.110
+uvicorn[standard]>=0.29
+
+# Dashboard
+streamlit>=1.35
+plotly>=5.20
+requests>=2.31
+
+# Utilities
+python-dotenv>=1.0
