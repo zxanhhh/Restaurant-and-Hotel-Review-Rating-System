@@ -51,28 +51,38 @@ class TestPipelineConstants:
 
 class TestAnalyzeReview:
     def test_json_parse_error_returns_none(self):
+        """Khi Gemini trả về JSON không hợp lệ, phải trả về None."""
         mock_response = MagicMock()
-        mock_response.content = [MagicMock(text="NOT VALID JSON {{{{")]
-        with patch("pipeline.claude_client.client") as mock_client:
-            mock_client.messages.create.return_value = mock_response
+        mock_response.text = "NOT VALID JSON {{{{"
+        with patch("pipeline.claude_client.model") as mock_model:
+            mock_model.generate_content.return_value = mock_response
             result = analyze_review("Some review text")
         assert result is None
 
     def test_missing_categories_key_returns_none(self):
+        """Khi JSON hợp lệ nhưng thiếu key 'categories', phải trả về None."""
         mock_response = MagicMock()
-        mock_response.content = [MagicMock(text='{"wrong_key": {}}')]
-        with patch("pipeline.claude_client.client") as mock_client:
-            mock_client.messages.create.return_value = mock_response
+        mock_response.text = '{"wrong_key": {}}'
+        with patch("pipeline.claude_client.model") as mock_model:
+            mock_model.generate_content.return_value = mock_response
             result = analyze_review("Some review text")
         assert result is None
 
     def test_valid_response_returned(self):
+        """Khi Gemini trả về JSON đúng format, phải parse thành công."""
         valid_json = '{"categories": {"Food": {"sentiment": "positive", "strength": "Ngon", "weakness": null, "confidence": 0.9}}}'
         mock_response = MagicMock()
-        mock_response.content = [MagicMock(text=valid_json)]
-        with patch("pipeline.claude_client.client") as mock_client:
-            mock_client.messages.create.return_value = mock_response
+        mock_response.text = valid_json
+        with patch("pipeline.claude_client.model") as mock_model:
+            mock_model.generate_content.return_value = mock_response
             result = analyze_review("Đồ ăn rất ngon!")
         assert result is not None
         assert "categories" in result
         assert result["categories"]["Food"]["sentiment"] == "positive"
+
+    def test_api_error_returns_none(self):
+        """Khi Gemini API lỗi, phải trả về None."""
+        with patch("pipeline.claude_client.model") as mock_model:
+            mock_model.generate_content.side_effect = Exception("API error")
+            result = analyze_review("Some review text")
+        assert result is None
