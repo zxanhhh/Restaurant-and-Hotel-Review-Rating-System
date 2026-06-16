@@ -21,3 +21,12 @@ app.include_router(router, prefix="/api/v1")
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
+    
+@app.get("/run-pipeline")
+def run_pipeline_endpoint():
+    try:
+        from pipeline.runner import run_pipeline
+        run_pipeline(batch_size=50, delay_seconds=1.0)
+        return {"status": "ok", "message": "Pipeline completed!"}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
