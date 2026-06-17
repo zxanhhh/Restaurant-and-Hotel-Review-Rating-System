@@ -2,7 +2,7 @@ import time
 from sqlalchemy import text
 from db.database import get_session
 from db.models import Review, AnalysisResult
-from .claude_client import analyze_review
+from .gemini_client import analyze_review
 from .store import save_analysis
 from .prompt import build_user_prompt
 
