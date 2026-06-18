@@ -5,7 +5,7 @@ from dashboard.charts import overall_donut_chart
 
 def render():
     st.title("📊 Review Rating System")
-    st.caption("Phân tích sentiment review nhà hàng & khách sạn bằng Claude AI")
+    st.caption("Phân tích sentiment review nhà hàng & khách sạn bằng Gemini AI")
 
     summary = fetch_summary()
     if summary is None:
