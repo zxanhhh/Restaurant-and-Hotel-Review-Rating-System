@@ -5,7 +5,7 @@ import google.generativeai as genai
 from .prompt import SYSTEM_PROMPT, build_user_prompt
 
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-model = genai.GenerativeModel("gemini-1.5-flash")
+model = genai.GenerativeModel("gemini-2.0-flash")
 
 
 def _strip_markdown(text: str) -> str:
