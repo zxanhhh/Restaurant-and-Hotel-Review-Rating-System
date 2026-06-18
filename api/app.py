@@ -26,7 +26,7 @@ def health_check():
 def run_pipeline_endpoint():
     try:
         from pipeline.runner import run_pipeline
-        run_pipeline(batch_size=50, delay_seconds=1.0)
+        run_pipeline(batch_size=10, delay_seconds=5.0)
         return {"status": "ok", "message": "Pipeline completed!"}
     except Exception as e:
         return {"status": "error", "message": str(e)}
