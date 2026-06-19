@@ -25,8 +25,41 @@ def health_check():
 @app.get("/run-pipeline")
 def run_pipeline_endpoint():
     try:
-        from pipeline.runner import run_pipeline
-        run_pipeline(batch_size=10, delay_seconds=8.0)
-        return {"status": "ok", "message": "Pipeline completed!"}
+        import time
+        from pipeline.runner import get_unanalyzed_reviews, _refresh_insights
+        from pipeline.gemini_client import analyze_review
+        from pipeline.store import save_analysis
+
+        total_success = 0
+        total_failed  = 0
+        business_ids  = []
+
+        while True:
+            reviews = get_unanalyzed_reviews(batch_size=10)
+            if not reviews:
+                break
+
+            for review in reviews:
+                while True:
+                    result = analyze_review(review["content"])
+                    if result is not None:
+                        save_analysis(review["id"], result)
+                        business_ids.append(review["business_id"])
+                        total_success += 1
+                        break
+                    else:
+                        time.sleep(65)
+
+                time.sleep(5)
+
+        if business_ids:
+            _refresh_insights(business_ids)
+
+        return {
+            "status":  "ok",
+            "success": total_success,
+            "failed":  total_failed,
+            "message": f"Analyzed {total_success} reviews!"
+        }
     except Exception as e:
         return {"status": "error", "message": str(e)}
