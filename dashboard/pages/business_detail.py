@@ -11,7 +11,6 @@ def render():
     st.title("🏪 Business Insights")
 
     from dashboard.config import API_BASE
-    st.caption(f"Đang kết nối tới: `{API_BASE}`")
 
     businesses = fetch_businesses()
 
