@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 import streamlit as st
 from dashboard.api_client import fetch_businesses, fetch_insights, fetch_reviews
 from dashboard.charts import sentiment_bar_chart
