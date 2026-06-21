@@ -7,9 +7,14 @@ from dashboard.config import PAGE_SIZE
 def render():
     st.title("🏪 Business Insights")
 
+    from dashboard.config import API_BASE
+    st.caption(f"Đang kết nối tới: `{API_BASE}`")
+
     businesses = fetch_businesses()
+
     if not businesses:
-        st.warning("Chưa có dữ liệu business. Hãy chạy seed_mock_data() trước.")
+        st.error(f"Không lấy được businesses từ API. URL: {API_BASE}/businesses")
+        st.info("Thử mở link trên trình duyệt xem có trả về data không.")
         return
 
     options       = {b["name"]: b["id"] for b in businesses}
