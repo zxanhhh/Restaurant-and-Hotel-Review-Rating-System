@@ -40,3 +40,5 @@ def render():
         analyzed  = summary["total_analyzed"]
         coverage  = (analyzed / total_rev * 100) if total_rev > 0 else 0
         st.info(f"Pipeline coverage: **{coverage:.1f}%** reviews đã được phân tích")
+
+render()
