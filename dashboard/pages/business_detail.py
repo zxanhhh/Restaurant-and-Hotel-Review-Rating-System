@@ -107,3 +107,5 @@ def render():
             if st.button("Next →"):
                 st.session_state.review_page += 1
                 st.rerun()
+
+render()
