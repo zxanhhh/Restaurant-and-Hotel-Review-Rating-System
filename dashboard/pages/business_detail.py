@@ -10,18 +10,46 @@ from dashboard.config import PAGE_SIZE
 def render():
     st.title("🏪 Business Insights")
 
-    from dashboard.config import API_BASE
-
-    businesses = fetch_businesses()
+    bbusinesses = fetch_businesses()
 
     if not businesses:
-        st.error(f"Không lấy được businesses từ API. URL: {API_BASE}/businesses")
-        st.info("Thử mở link trên trình duyệt xem có trả về data không.")
+        st.warning("Chưa có dữ liệu business. Hãy chạy seed_mock_data() trước.")
         return
-
-    options       = {b["name"]: b["id"] for b in businesses}
+    
+    # --- Filter sidebar ---
+    st.sidebar.subheader("🔍 Filter")
+    
+    all_types = sorted(set(b["type"] for b in businesses))
+    selected_types = st.sidebar.multiselect(
+        "Loại hình", options=all_types, default=all_types
+    )
+    
+    all_cities = sorted(set(b["city"] for b in businesses if b["city"]))
+    selected_cities = st.sidebar.multiselect(
+        "Thành phố", options=all_cities, default=all_cities
+    )
+    
+    filtered = [
+        b for b in businesses
+        if b["type"] in selected_types
+        and b["city"] in selected_cities
+    ]
+    
+    if not filtered:
+        st.warning("Không có business nào phù hợp với filter.")
+        return
+    
+    options       = {b["name"]: b["id"] for b in filtered}  # ← dùng filtered thay vì businesses
     selected_name = st.sidebar.selectbox("Chọn Business", list(options.keys()))
     selected_id   = options[selected_name]
+    
+        if not businesses:
+            st.warning("Chưa có dữ liệu business. Hãy chạy seed_mock_data() trước.")
+            return
+    
+        options       = {b["name"]: b["id"] for b in businesses}
+        selected_name = st.sidebar.selectbox("Chọn Business", list(options.keys()))
+        selected_id   = options[selected_name]
 
     # Reset pagination khi đổi business
     if st.session_state.get("last_business_id") != selected_id:
