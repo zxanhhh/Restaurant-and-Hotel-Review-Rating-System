@@ -2,6 +2,8 @@ import json
 from datetime import datetime
 from db.database import get_session
 from db.models import Business, Review
+from dotenv import load_dotenv
+load_dotenv()
 
 YELP_BUSINESS_PATH = r"D:\D\Yelp-JSON\Yelp JSON\yelp_dataset\yelp_academic_dataset_business.json"
 YELP_REVIEW_PATH   = r"D:\D\Yelp-JSON\Yelp JSON\yelp_dataset\yelp_academic_dataset_review.json"
