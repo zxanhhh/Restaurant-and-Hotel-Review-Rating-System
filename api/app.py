@@ -21,4 +21,17 @@ app.include_router(router, prefix="/api/v1")
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
-    
+
+@app.get("/reset-db")
+def reset_database():
+    """Endpoint tạm — xóa toàn bộ data để load lại từ Yelp."""
+    try:
+        from sqlalchemy import delete, text
+        from db.database import get_session
+        from db.models import Business
+        with get_session() as session:
+            # Xóa business sẽ cascade xóa reviews, analysis_results, insights
+            session.execute(delete(Business))
+        return {"status": "ok", "message": "Đã xóa toàn bộ data!"}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
