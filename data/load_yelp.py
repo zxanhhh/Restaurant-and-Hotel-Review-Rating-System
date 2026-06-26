@@ -3,8 +3,8 @@ from datetime import datetime
 from db.database import get_session
 from db.models import Business, Review
 
-YELP_BUSINESS_PATH = "data/yelp_academic_dataset_business.json"
-YELP_REVIEW_PATH   = "data/yelp_academic_dataset_review.json"
+YELP_BUSINESS_PATH = r"C:\Users\Xuan Anh\Downloads\Yelp-JSON\Yelp JSON\yelp_dataset\yelp_academic_dataset_business"
+YELP_REVIEW_PATH   = r"C:\Users\Xuan Anh\Downloads\Yelp-JSON\Yelp JSON\yelp_dataset\yelp_academic_dataset_review"
 
 TARGET_CATEGORIES = {"Restaurants", "Hotels", "Cafes"}
 
