@@ -10,7 +10,7 @@ from dashboard.config import PAGE_SIZE
 def render():
     st.title("🏪 Business Insights")
 
-    b    usinesses = fetch_businesses()
+    businesses = fetch_businesses()
 
     if not businesses:
         st.warning("Chưa có dữ liệu business. Hãy chạy seed_mock_data() trước.")
@@ -39,7 +39,7 @@ def render():
         st.warning("Không có business nào phù hợp với filter.")
         return
     
-    options       = {b["name"]: b["id"] for b in filtered}  # ← dùng filtered thay vì businesses
+    options       = {b["name"]: b["id"] for b in filtered}  # dùng filtered thay vì businesses
     selected_name = st.sidebar.selectbox("Chọn Business", list(options.keys()))
     selected_id   = options[selected_name]
 
