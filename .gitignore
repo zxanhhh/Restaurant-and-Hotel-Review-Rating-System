@@ -11,3 +11,5 @@ data/yelp_academic_dataset_*.json
 .pytest_cache/
 .coverage
 htmlcov/
+run_pipeline_local.py
+delete_mock.py
