@@ -21,3 +21,12 @@ app.include_router(router, prefix="/api/v1")
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
+
+@app.get("/init-street-vendors")
+def init_street_vendors_table():
+    try:
+        from db.database import Base, engine
+        Base.metadata.create_all(bind=engine)
+        return {"status": "ok", "message": "Bảng street_vendors đã tạo!"}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
