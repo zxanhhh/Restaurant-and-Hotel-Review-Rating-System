@@ -143,4 +143,12 @@ def _create_indexes_and_triggers():
             conn.execute(text(stmt))
         conn.commit()
 
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+        
 from db.street_vendor_models import StreetVendor
