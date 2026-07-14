@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .routes import router
+from api.street_vendor_routes import router as street_vendor_router
+
+app.include_router(street_vendor_router)
 
 app = FastAPI(
     title       = "Review Rating System API",
