@@ -2,7 +2,6 @@ import os
 from contextlib import contextmanager
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
-from db.street_vendor_models import StreetVendor
 from .models import Base
 
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://user:password@localhost:5432/review_db")
