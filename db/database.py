@@ -142,3 +142,5 @@ def _create_indexes_and_triggers():
         for stmt in ddl_statements:
             conn.execute(text(stmt))
         conn.commit()
+
+from db.street_vendor_models import StreetVendor
