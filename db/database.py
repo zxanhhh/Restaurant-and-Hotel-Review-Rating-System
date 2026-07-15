@@ -3,6 +3,7 @@ from contextlib import contextmanager
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
 from .models import Base
+from db.street_vendor_models import StreetVendor
 
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://user:password@localhost:5432/review_db")
 
@@ -143,7 +144,6 @@ def _create_indexes_and_triggers():
             conn.execute(text(stmt))
         conn.commit()
 
-from db.street_vendor_models import StreetVendor
 def get_db():
     db = SessionLocal()
     try:
