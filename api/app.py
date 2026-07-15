@@ -3,8 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from .routes import router
 from api.street_vendor_routes import router as street_vendor_router
 
-app.include_router(street_vendor_router)
-
 app = FastAPI(
     title       = "Review Rating System API",
     description = "API phân tích sentiment review nhà hàng và khách sạn",
@@ -20,6 +18,7 @@ app.add_middleware(
 )
 
 app.include_router(router, prefix="/api/v1")
+app.include_router(street_vendor_router)
 
 @app.get("/health")
 def health_check():
