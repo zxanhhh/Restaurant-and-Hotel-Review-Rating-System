@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, func
-from db.database import Base
+from .models import Base
 
 
 class StreetVendor(Base):
