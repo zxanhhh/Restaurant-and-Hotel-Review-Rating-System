@@ -61,3 +61,12 @@ def create_vendor(vendor: StreetVendorCreate, db: Session = Depends(get_db)):
 @router.get("/{vendor_id}", response_model=StreetVendorResponse)
 def get_vendor(vendor_id: int, db: Session = Depends(get_db)):
     return db.query(StreetVendor).filter(StreetVendor.id == vendor_id).first()
+
+@router.delete("/{vendor_id}")
+def delete_vendor(vendor_id: int, db: Session = Depends(get_db)):
+    vendor = db.query(StreetVendor).filter(StreetVendor.id == vendor_id).first()
+    if not vendor:
+        return {"status": "error", "message": "Không tìm thấy quán"}
+    db.delete(vendor)
+    db.commit()
+    return {"status": "ok", "message": f"Đã xóa quán id={vendor_id}"}
